@@ -18,7 +18,7 @@ def close(img, iterations=1):
 
 
 # 1. Load image
-img = cv2.imread("slikaB.jpg")
+img = cv2.imread("pictures/slikaB.jpg")
 if img is None:
     print("Error: cannot load image! Check file path and name.")
     exit()
