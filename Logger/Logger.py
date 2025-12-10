@@ -1,5 +1,10 @@
 import threading
 
+import os
+import sys
+from datetime import datetime
+from pathlib import Path
+
 from Logger.Logger_Base import Logger_Base
 from Logger.Queue import Queue
 
@@ -23,13 +28,27 @@ class Logger(Logger_Base):
 			Logger.Logger_Thread_Stop = False
 			Logger.Logger_Thread.start()
 
+			if os.path.isdir(Logger_Base.Logger_Base_log_file_path):
+				Logger.logi(f"The directory '{Logger_Base.Logger_Base_log_file_path}' exists.")
+			else:
+				Logger.logw(f"The directory '{Logger_Base.Logger_Base_log_file_path}' does not exist.")
+				Logger.logi("Creating directory \"logs\"")
+				os.makedirs(Path(Logger_Base.Logger_Base_log_file_path), exist_ok=True) 
+
+			Logger_Base.Logger_Base_log_file_name = Logger_Base.Logger_Base_log_file_path + Logger_Base.Logger_Base_log_file_name_prefix + datetime.now().strftime("%Y-%m-%d_%H-%M-%S" + Logger_Base.Logger_Base_log_file_name_sufix)
+			Logger_Base.Logger_Base_log_file = open(Logger_Base.Logger_Base_log_file_name, "wt")
+			
+			Logger_Base.Logger_descriptors.append(Logger_Base.Logger_Base_log_file)
+
 	@staticmethod
 	def stop():
 		if Logger.Logger_Thread is not None:
 			Logger.Logger_Thread_Stop = True
 			with Logger.__Logger_condition:
 				Logger.__Logger_condition.notify_all()
-			Logger.Logger_Thread.join()			
+			Logger.Logger_Thread.join()
+
+			Logger_Base.Logger_Base_log_file.close()			
 
 	@staticmethod
 	def loop():

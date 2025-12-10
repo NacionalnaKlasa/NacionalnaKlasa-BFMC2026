@@ -12,3 +12,4 @@ __pycache__
 # Other files
 
 .venv
+logs
