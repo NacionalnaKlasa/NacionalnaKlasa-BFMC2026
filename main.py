@@ -11,6 +11,8 @@ while running:
 		logger.logi("Ovo je neka poruka")
 		time.sleep(2)
 
+		Logger.logi("Ovo je poruka od static metode")
+
 	except KeyboardInterrupt:
 		running = False
 		for service in reversed(services):

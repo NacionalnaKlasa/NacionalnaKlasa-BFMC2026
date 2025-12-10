@@ -51,16 +51,17 @@ class Logger(Logger_Base):
 					
 					Logger.__Logger_condition.wait(timeout=3)
 
-	def __log(self, msg, log_level):
+	@staticmethod
+	def __log(msg, log_level):
 		ret_val = False
 		if log_level == 0:
-			ret_val = self.logi(msg)
+			ret_val = Logger.logi(msg)
 
 		elif log_level == 1:
-			ret_val = self.logw(msg)
+			ret_val = Logger.logw(msg)
 
 		elif log_level == 2:
-			ret_val = self.loge(msg)
+			ret_val = Logger.loge(msg)
 
 		else:
 			ret_val = False
@@ -68,6 +69,12 @@ class Logger(Logger_Base):
 		return ret_val
 
 	def log(self, msg, log_level):
+		Logger.log(msg, log_level)
+		
+		return self.__log(msg, log_level)
+	
+	@staticmethod
+	def log(msg, log_level):
 		if isinstance(log_level, bool):
 			return False
 
@@ -80,23 +87,26 @@ class Logger(Logger_Base):
 		if log_level is None or log_level not in Logger.LOG_LEVELS:
 			return False
 		
-		return self.__log(msg, log_level)
+		return Logger.__log(msg, log_level)
 		
-	def logi(self, msg):
+	@staticmethod
+	def logi(msg):
 		ret_val = Logger.QUEUE_INFO.append(msg)
 		with Logger.__Logger_condition:
 			Logger.__Logger_condition.notify_all()
 
 		return ret_val
 
-	def logw(self, msg):
+	@staticmethod
+	def logw(msg):
 		ret_val = Logger.QUEUE_WARNING.append(msg)
 		with Logger.__Logger_condition:
 			Logger.__Logger_condition.notify_all()
 
 		return ret_val
 
-	def loge(self, msg):
+	@staticmethod
+	def loge(msg):
 		ret_val = Logger.QUEUE_ERROR.append(msg)
 		with Logger.__Logger_condition:
 			Logger.__Logger_condition.notify_all()
