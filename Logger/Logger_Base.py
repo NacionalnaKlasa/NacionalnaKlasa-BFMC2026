@@ -1,4 +1,4 @@
-import Color
+import Logger.Color as Color
 
 class Logger_Base:
 

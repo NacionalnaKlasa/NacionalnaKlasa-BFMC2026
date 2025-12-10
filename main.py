@@ -1,4 +1,4 @@
-from Logger import Logger
+from Logger.Logger import Logger
 import time
 
 running = True

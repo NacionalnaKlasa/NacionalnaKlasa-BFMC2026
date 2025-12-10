@@ -1,7 +1,7 @@
 import threading
 
-from Logger_Base import Logger_Base
-from Queue import Queue
+from Logger.Logger_Base import Logger_Base
+from Logger.Queue import Queue
 
 class Logger(Logger_Base):
 
