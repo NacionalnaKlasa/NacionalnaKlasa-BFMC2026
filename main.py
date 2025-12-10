@@ -2,18 +2,27 @@ from Logger import Logger
 import time
 
 running = True
-logger = Logger()
+Logger()
 
-services = [logger]
+services = [Logger]
 
 while running:
 	try:
-		logger.logi("Ovo je neka poruka")
+		Logger.logi("Ovo je neka poruka")
 		time.sleep(2)
 
 		Logger.logi("Ovo je poruka od static metode")
 
 	except KeyboardInterrupt:
+		running = False
+		for service in reversed(services):
+			try:
+				print("Trying to stop service: " + str(service))
+				service.stop()
+			except Exception as e:
+				print(f"Error stopping {type(service).__name__}: {e}")
+
+	except:
 		running = False
 		for service in reversed(services):
 			try:

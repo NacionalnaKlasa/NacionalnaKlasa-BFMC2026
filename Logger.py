@@ -14,21 +14,24 @@ class Logger(Logger_Base):
 
 	__Logger_condition = threading.Condition()
 
-	def __init__(self):
+	@staticmethod
+	def __init__():
 		if Logger.Logger_Thread == None:
-			super().__init__()
+			Logger_Base().__init__()
 			Logger.Logger_Thread = threading.Thread(target=Logger.loop) 
 
 			Logger.Logger_Thread_Stop = False
 			Logger.Logger_Thread.start()
 
-	def stop(self):
+	@staticmethod
+	def stop():
 		if Logger.Logger_Thread is not None:
 			Logger.Logger_Thread_Stop = True
 			with Logger.__Logger_condition:
 				Logger.__Logger_condition.notify_all()
 			Logger.Logger_Thread.join()			
 
+	@staticmethod
 	def loop():
 		with Logger.__Logger_condition:
 			while Logger.Logger_Thread_Stop == False:
@@ -67,11 +70,6 @@ class Logger(Logger_Base):
 			ret_val = False
 		
 		return ret_val
-
-	def log(self, msg, log_level):
-		Logger.log(msg, log_level)
-		
-		return self.__log(msg, log_level)
 	
 	@staticmethod
 	def log(msg, log_level):

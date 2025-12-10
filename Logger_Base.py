@@ -11,7 +11,8 @@ class Logger_Base:
 
 	REV_LOG_LEVELS = {}
 
-	def __init__(self):
+	@staticmethod
+	def __init__():
 		if not Logger_Base.LOGGER_BASE_INITIALIZED:
 			Logger_Base.LOGGER_BASE_INITIALIZED = True
 			Logger_Base.REV_LOG_LEVELS = {v: k for k, v in Logger_Base.LOG_LEVELS.items()}
