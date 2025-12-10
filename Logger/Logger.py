@@ -1,7 +1,6 @@
 import threading
 
 import os
-import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -14,46 +13,46 @@ class Logger(Logger_Base):
 	QUEUE_WARNING = Queue()
 	QUEUE_ERROR = Queue()
 
-	Logger_Thread = None
-	Logger_Thread_Stop = True
+	Thread = None
+	Thread_Stop = True
 
 	__Logger_condition = threading.Condition()
 
 	@staticmethod
 	def __init__():
-		if Logger.Logger_Thread == None:
+		if Logger.Thread == None:
 			Logger_Base().__init__()
-			Logger.Logger_Thread = threading.Thread(target=Logger.loop) 
+			Logger.Thread = threading.Thread(target=Logger.loop) 
 
-			Logger.Logger_Thread_Stop = False
-			Logger.Logger_Thread.start()
+			Logger.Thread_Stop = False
+			Logger.Thread.start()
 
-			if os.path.isdir(Logger_Base.Logger_Base_log_file_path):
-				Logger.logi(f"The directory '{Logger_Base.Logger_Base_log_file_path}' exists.")
+			if os.path.isdir(Logger_Base.Log_file_path):
+				Logger.logi(f"The directory '{Logger_Base.Log_file_path}' exists.")
 			else:
-				Logger.logw(f"The directory '{Logger_Base.Logger_Base_log_file_path}' does not exist.")
+				Logger.logw(f"The directory '{Logger_Base.Log_file_path}' does not exist.")
 				Logger.logi("Creating directory \"logs\"")
-				os.makedirs(Path(Logger_Base.Logger_Base_log_file_path), exist_ok=True) 
+				os.makedirs(Path(Logger_Base.Log_file_path), exist_ok=True) 
 
-			Logger_Base.Logger_Base_log_file_name = Logger_Base.Logger_Base_log_file_path + Logger_Base.Logger_Base_log_file_name_prefix + datetime.now().strftime("%Y-%m-%d_%H-%M-%S" + Logger_Base.Logger_Base_log_file_name_sufix)
-			Logger_Base.Logger_Base_log_file = open(Logger_Base.Logger_Base_log_file_name, "wt")
+			Logger_Base.Log_file_name = Logger_Base.Log_file_path + Logger_Base.Log_file_name_prefix + datetime.now().strftime("%Y-%m-%d_%H-%M-%S" + Logger_Base.Log_file_name_sufix)
+			Logger_Base.Log_file_descriptor = open(Logger_Base.Log_file_name, "wt")
 			
-			Logger_Base.Logger_descriptors.append(Logger_Base.Logger_Base_log_file)
+			Logger_Base.Descriptors.append(Logger_Base.Log_file_descriptor)
 
 	@staticmethod
 	def stop():
-		if Logger.Logger_Thread is not None:
-			Logger.Logger_Thread_Stop = True
+		if Logger.Thread is not None:
+			Logger.Thread_Stop = True
 			with Logger.__Logger_condition:
 				Logger.__Logger_condition.notify_all()
-			Logger.Logger_Thread.join()
+			Logger.Thread.join()
 
-			Logger_Base.Logger_Base_log_file.close()			
+			Logger_Base.Log_file_descriptor.close()			
 
 	@staticmethod
 	def loop():
 		with Logger.__Logger_condition:
-			while Logger.Logger_Thread_Stop == False:
+			while Logger.Thread_Stop == False:
 				
 				if len(Logger.QUEUE_ERROR):
 					Logger_Base.loge(Logger.QUEUE_ERROR.pop())
