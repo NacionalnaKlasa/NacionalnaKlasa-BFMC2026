@@ -6,12 +6,14 @@ Logger()
 
 services = [Logger]
 
+counter = 0
 while running:
 	try:
 		Logger.logi("Ovo je neka poruka")
 		time.sleep(2)
 
-		Logger.logi("Ovo je poruka od static metode")
+		Logger.log("Ovo je poruka od static metode", counter % 3)
+		counter = counter + 1
 
 	except KeyboardInterrupt:
 		running = False

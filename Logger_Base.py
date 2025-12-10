@@ -1,3 +1,4 @@
+import Color
 
 class Logger_Base:
 
@@ -11,6 +12,10 @@ class Logger_Base:
 
 	REV_LOG_LEVELS = {}
 
+	INFO_COLOR = Color.RESET
+	WARNING_COLOR = Color.YELLOW
+	ERROR_COLOR = Color.RED
+
 	@staticmethod
 	def __init__():
 		if not Logger_Base.LOGGER_BASE_INITIALIZED:
@@ -19,12 +24,12 @@ class Logger_Base:
 
 	@staticmethod
 	def loge(msg):
-		print("[ERROR] " + msg)
+		print(Logger_Base.ERROR_COLOR + "[ERROR] " + msg + Color.RESET)
 
 	@staticmethod
 	def logw(msg):
-		print("[WARNING] " + msg)
+		print(Logger_Base.WARNING_COLOR + "[WARNING] " + msg + Color.RESET)
 
 	@staticmethod
 	def logi(msg):
-		print("[INFO] " + msg)
+		print(Logger_Base.INFO_COLOR + "[INFO] " + msg + Color.RESET)
