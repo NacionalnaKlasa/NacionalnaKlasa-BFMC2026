@@ -38,5 +38,5 @@ requirements: venv
 # ---------------------------------------
 run: requirements
 	@echo "Running line detection script..."
-	@$(PYTHON) line_detection.py
+	@$(PYTHON) main.py
 	@echo "Done"
