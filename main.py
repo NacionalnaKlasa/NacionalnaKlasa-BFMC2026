@@ -11,10 +11,10 @@ def main():
 
     if choice == "1":
         print("Starting basic lane detection...")
-        run("videos/input.mp4", "videos/output.avi")
+        run("videos/input/input.mp4", "videos/output/output.avi")
     elif choice == "2":
         print("Starting strong averaged lane lines...")
-        run_str_avg_lines("videos/input.mp4", "videos/outputStrAvgLines.avi")
+        run_str_avg_lines("videos/input/input.mp4", "videos/output/outputStrAvgLines.avi")
     else:
         print("Chosed a wrong option. Ending the program.")
 

@@ -173,7 +173,7 @@ def process_frame(frame):
     return result
 
 # ================= RUN FUNCTION =================
-def run(input_video="videos/input.mp4", output_video="videos/output.avi"):
+def run(input_video="videos/input/input.mp4", output_video="videos/output/output.avi"):
     """
     Main function to process a video file.
     Can be called from a launcher script (main.py)

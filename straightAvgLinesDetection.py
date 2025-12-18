@@ -194,7 +194,7 @@ def process_frame(frame):
 
 
 # ================= RUN FUNCTION =================
-def run_str_avg_lines(input_video="videos/input.mp4", output_video="videos/outputStrAvgLines.avi"):
+def run_str_avg_lines(input_video="videos/input/input.mp4", output_video="videos/output/outputStrAvgLines.avi"):
     cap = cv2.VideoCapture(input_video)
     if not cap.isOpened():
         print(f"{input_video} not found")

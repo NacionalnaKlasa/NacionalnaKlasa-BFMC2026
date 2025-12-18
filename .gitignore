@@ -10,7 +10,8 @@
 ###################################################
 __pycache__/
 
-# Ignore video outputs
+# Ignore pictures video outputs
 videos/output/
+pictures/
 
 # Other files
