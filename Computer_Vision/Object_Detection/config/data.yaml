@@ -1,0 +1,37 @@
+# ---------------------------------------------------------
+# BFMC 2025 - Traffic Sign Detection Configuration
+# Project: NacionalnaKlasa-BFMC-2026
+# ---------------------------------------------------------
+# ⚠️ DATASET INFO:
+# This file defines the class mapping used for the YOLOv8n model.
+# The actual images are NOT hosted on GitHub due to size constraints.
+#
+# Download the full dataset here:
+#https://app.roboflow.com/konstantin-arfm1/nacionalnaklasa-bfmc2026/1
+# ---------------------------------------------------------
+
+# Train/Val/Test paths (Relative paths expected by YOLO)
+path: ../datasets/BFMC_Traffic_Signs  # Root dir
+train: train/images
+val: valid/images
+test: test/images
+
+# Number of classes
+nc: 13
+
+# Class Names (Mapping ID -> Name)
+# IMPORTANT: This order must match the training data exactly!
+names:
+  0: Parking
+  1: Priority
+  2: Crosswalk
+  3: Stop
+  4: No-Entry
+  5: One-Way
+  6: Highway-Entrance
+  7: Highway-Exit
+  8: Roundabout
+  9: Pedestrian
+  10: Traffic-Light-Red
+  11: Traffic-Light-Green
+  12: Traffic-Light-Yellow
