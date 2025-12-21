@@ -17,14 +17,14 @@ To run this project, you need:
 - A terminal with Bash support (e.g., Git Bash on Windows)
 
 
-Project Structure:
+## Project Structure:
 
     main.py – Launcher script that allows choosing between the two detection modes.
     bestLineDetection.py – Basic lane detection (displays all detected lines and average slopes for left/right lanes).
     straightAvgLinesDetection.py – Improved version with stronger averaging of lane lines (draws only one thick averaged line per side).
 
 
-Common Features in Both Modes:
+## Common Features in Both Modes:
 
     1. Custom Region of Interest (ROI) trapezoid tailored to the BFMC car's camera perspective.
     2. Contrast enhancement using CLAHE.
