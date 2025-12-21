@@ -1,0 +1,15 @@
+
+# Sensitive information files (passwords, keys etc)
+###################################################
+
+
+
+# Build files
+###################################################
+
+__pycache__
+
+# Other files
+
+.venv
+logs
