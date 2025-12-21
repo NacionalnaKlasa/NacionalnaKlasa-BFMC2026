@@ -5,6 +5,7 @@
 
 # Build files
 ###################################################
+.venv
 
 # Python cache files
 ###################################################
@@ -12,6 +13,5 @@ __pycache__/
 
 # Ignore pictures video outputs
 videos/output/
-pictures/
 
 # Other files
