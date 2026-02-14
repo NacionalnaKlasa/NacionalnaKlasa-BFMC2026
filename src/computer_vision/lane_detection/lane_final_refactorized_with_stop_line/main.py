@@ -35,10 +35,10 @@ class ROI:
 ############# Parameters for Stop Line #############
 @dataclass(frozen=True)
 class StopLine:
-    min_length_ratio: float = 0.1     # Min dužina linije (30% širine ekrana)
-    y_tolerance: int = 10              # Tolerancija za grupiranje linija (±10px)
+    min_length_ratio: float = 0.08     # Min dužina linije (30% širine ekrana)
+    y_tolerance: int = 6             # Tolerancija za grupiranje linija (±10px)
     slope_threshold: float = 0.5       # Max nagib za horizontalnu liniju
-    min_segments: int = 1              # Min broj segmenata za validnu stop liniju
+    min_segments: int = 2              # Min broj segmenata za validnu stop liniju
 
 ### NAJBOLJI PARAMETRI ZA ZAUSTAVNU
     #0.1
