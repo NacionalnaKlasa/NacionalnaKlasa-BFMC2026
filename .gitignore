@@ -13,3 +13,15 @@ __pycache__
 
 .venv
 logs
+dataset
+exports
+GRAPH
+jsons_files
+LOCAL
+ROBOT
+videos
+crop_video.py
+dataset_novi.zip
+merge_dataset.py
+dataset_novi.zip
+export.py
