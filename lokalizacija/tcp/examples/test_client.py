@@ -2,7 +2,16 @@ from .. tcp_client import TCP_CLIENT
 
 def main():
     client = TCP_CLIENT()
-    client.send("Hej Serveru!")
+    
+    status = 0
+    
+    while not status:
+        speed = int(input("Type desired speed: "))
+        angle = int(input("Type desired angle: "))
+        status = int(input("Type desired status: "))
+        print("\n")
+        client.send(speed, angle, status)
+
     client.disconnect()
     
 

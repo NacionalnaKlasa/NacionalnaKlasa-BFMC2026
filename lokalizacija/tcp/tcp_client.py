@@ -2,6 +2,7 @@ from .tcp import TCP
 from .config import SERVER_PORT, SERVER_IP_ADDRESS
 
 import time
+import struct
 
 class TCP_CLIENT(TCP):
     def __init__(self):
@@ -16,7 +17,7 @@ class TCP_CLIENT(TCP):
             self.last_connect_time = time.monotonic_ns()
          
     def reconnect(self, ip, port, delay=1):
-        if time.monotonic_ns - self.last_connect_time > delay:
+        if time.monotonic_ns() - self.last_connect_time > delay:
             self.connect(ip, port)
 
     def disconnect(self):
@@ -24,10 +25,11 @@ class TCP_CLIENT(TCP):
             self.socket.close()
         self.connected = False
     
-    def send(self, msg):
+    def send(self, speed, angle, status):
         if not self.connected:
             self.reconnect(SERVER_IP_ADDRESS, SERVER_PORT)
         else:
+            msg = struct.pack("!iii", speed, angle, status)
             return super().send(msg)
     
     def receive(self, msg):
