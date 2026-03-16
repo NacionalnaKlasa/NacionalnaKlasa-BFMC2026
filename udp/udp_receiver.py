@@ -1,4 +1,4 @@
-from src.udp import UDP
+from udp.udp import UDP
 from .config import UDP_PORT
 
 import socket
