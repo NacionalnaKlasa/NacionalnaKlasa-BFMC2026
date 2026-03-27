@@ -3,7 +3,7 @@ import config
 from src.frontendUDP import FrontendUDP
 
 app = Flask(__name__)
-# Inicijalizacija menadžera
+
 video_manager = FrontendUDP()
 
 @app.route('/')
