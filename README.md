@@ -13,7 +13,7 @@ frontendUDP/
 ├── README.md           # Dokumentacija projekta
 ├── requirements.txt    # Neophodne Python biblioteke
 ├── .gitignore          # Ignorisanje pycache i video fajlova
-├── src/
+├── frontend/
 │   └── frontendUDP.py  # Glavna klasa za procesiranje UDP frejmova
 ├── senders/
 │   └── sender.py       # Skripta koja čita video i šalje ga na UDP port

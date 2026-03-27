@@ -1,6 +1,6 @@
 from flask import Flask
 import config
-from src.frontendUDP import FrontendUDP
+from frontend.frontendUDP import FrontendUDP
 
 app = Flask(__name__)
 
