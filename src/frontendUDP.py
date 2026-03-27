@@ -9,37 +9,42 @@ import config
 
 class FrontendUDP:
     def __init__(self):
-        self.ports = config.PORTS
-        self.num_cameras = len(self.ports)
+        self.all_ports = config.PORTS
+        self.state_port = config.STATE_PORTS
+        
+        #lista portova koji nis za stanje, dakle samo video
+        self.video_ports = [p for p in self.all_ports if p not in self.state_port]
+        self.num_cameras = len(self.video_ports)
+
         #recnik da cuvam poslednji frejm za svaki port
         # Format: { port: frame_data }
-        self.shared_frames = {port: None for port in self.ports}
+        self.shared_frames = {port: None for port in self.video_ports}
         self.current_state = "Waiting..."
 
     def _udp_reader_worker(self, port):
         """nit slusa samo po jedan port"""
         receiver = UDP_Receiver(port=port)
-        print(f"[UDP] Slušam port {port}...")
+        print(f"[UDP] Listening port {port}...")
         while True:
             data, data_type = receiver.recv()
             if data is not None:
-                if data_type == DATA_TYPES.IMAGE:
+                if port in self.state_port and data_type == DATA_TYPES.STRING:
+                    self.current_state = str(data)
+                elif data_type == DATA_TYPES.IMAGE:
                     self.shared_frames[port] = data
-                elif data_type == DATA_TYPES.STRING:
-                    self.current_state = data
 
     def start_receivers(self):
         """ jednu nit za svaki port"""
-        for p in self.ports:
+        for p in self.all_ports:
             t = threading.Thread(target=self._udp_reader_worker, args=(p,), daemon=True)
             t.start()
 
     def get_streaming_response(self, camera_index):
         """slanje frejmova lad ih browser trazi"""
-        if not (0 <= camera_index < self.num_cameras):
+        if not (0 <= camera_index < len(self.video_ports)):
             return None
         
-        port = self.ports[camera_index]
+        port = self.video_ports[camera_index]
         
         def generate():
             while True:
@@ -58,15 +63,34 @@ class FrontendUDP:
         return render_template_string("""
         <body style="background: black; color: white; font-family: Helvetica, Arial, sans-serif; margin: 20px;">
             <h1 style="text-align: left;">{{ title }}</h1>
-            <h2 style="text-align: left; color: #aaa; margin-top: 0; margin-bottom: 20px;">State: {{ stanje }}</h2>
+            
+            <h2 style="text-align: left; color: #aaa; margin-top: 0; margin-bottom: 20px;">
+                State: <span id="live-state" style="color: #00ff00;">{{ stanje }}</span>
+            </h2>
                                       
             <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-                {% for i in range(broj) %}
-                    <div style="border: 2px solid grey; padding: 10px; background: #111; width: 420px;">
-                        <h3 style="text-align: left; margin-top: 0;">Receiver {{ i+1 }} (Port: {{ portovi[i] }})</h3>
-                        <img src="/videoFeed/{{ i }}" style="width: 100%; border: 1px solid #444;">
+                {% for i in range(broj_kamera) %}
+                    <div style="border: 1px solid #444; padding: 10px; background: #111; width: 420px; border-radius: 5px;">
+                        <h3 style="text-align: left; margin-top: 0; color: #888;">Camera {{ i+1 }} (Port: {{ portovi[i] }})</h3>
+                        <img src="/videoFeed/{{ i }}" style="width: 100%; border: 1px solid #333; display: block;">
                     </div>
                 {% endfor %}
             </div>
+
+            <script>
+                // Ova funkcija uzima samo string sa servera i menja ga na ekranu
+                function refreshState() {
+                    fetch('/get_state')
+                        .then(response => response.text())
+                        .then(data => {
+                            document.getElementById('live-state').innerText = data;
+                        })
+                        .catch(err => console.error("Greška pri čitanju stanja"));
+                }
+
+                // Osvežavaj samo TEKST svakih 100ms. Video ostaje netaknut.
+                setInterval(refreshState, 100);
+            </script>
         </body>
-        """, title=config.APP_TITLE, broj=self.num_cameras, portovi=self.ports, stanje=self.current_state)
+        """, 
+        title=config.APP_TITLE, broj_kamera=len(self.video_ports), stanje=self.current_state,  portovi=self.video_ports,)

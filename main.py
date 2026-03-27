@@ -10,6 +10,10 @@ video_manager = FrontendUDP()
 def homePage():
     return video_manager.get_html_template()
 
+@app.route('/get_state')
+def get_state():
+    return video_manager.current_state
+
 @app.route('/videoFeed/<int:id>')
 def videoFeed(id):
     response = video_manager.get_streaming_response(id)

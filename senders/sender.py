@@ -22,7 +22,7 @@ while cap.isOpened():
     
     # Slanje frejma preko UDP-a
     sender.send(frame, DATA_TYPES.IMAGE)
-    sender.send("FOLLOW LINE", DATA_TYPES.STRING)
+    #sender.send("FOLLOW LINE", DATA_TYPES.STRING)
     #odrzava konstantan ritam
     clock.tick()
 

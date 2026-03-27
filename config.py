@@ -1,5 +1,8 @@
 #nek svaki sender ima zaseban port
-PORTS = [9990, 9991, 9992, 9993]
+#odvojen je lista za sting portove, za ostale se podrazumeva da su video portovi
+#bitno je koliko prozora cu da prikazujem u frontendu
+PORTS = [8000, 9990, 9991, 9992, 9993]
+STATE_PORTS = [8000]
 
 FLASK_HOST = '0.0.0.0'
 FLASK_PORT = 5000
