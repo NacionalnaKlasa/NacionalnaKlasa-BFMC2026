@@ -5,6 +5,7 @@ from flask import Response, render_template_string
 sys.path.insert(0, r'C:\Users\User\Desktop\bfmc\frontendUDP')
 from udp.udp_receiver import UDP_Receiver
 from udp.types import DATA_TYPES
+from udp.fps_clock import FPSClock
 import config
 
 class FrontendUDP:
@@ -47,6 +48,7 @@ class FrontendUDP:
         port = self.video_ports[camera_index]
         
         def generate():
+            localClock = FPSClock(config.FPS_LOCALCLOCK)
             while True:
                 frame = self.shared_frames.get(port)
                 if frame is not None:
@@ -54,6 +56,7 @@ class FrontendUDP:
                     image_bytes = jpeg.tobytes()
                     yield (b'--frame\r\n'
                            b'Content-Type: image/jpeg\r\n\r\n' + image_bytes + b'\r\n')
+                    localClock.tick()
                 else:
                     cv2.waitKey(10) # Kratka pauza ako nema frejma
         
@@ -78,7 +81,7 @@ class FrontendUDP:
             </div>
 
             <script>
-                // Ova funkcija uzima samo string sa servera i menja ga na ekranu
+                // Ova funkcija uzima samo string sa servera i menja ga na ekranu, bez da ucitavam celu stranu
                 function refreshState() {
                     fetch('/get_state')
                         .then(response => response.text())

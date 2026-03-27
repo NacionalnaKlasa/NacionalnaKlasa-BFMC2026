@@ -40,6 +40,14 @@ Otvori novi terminal, uđi u folder senders i pokreni skriptu:
 cd senders
 python sender.py
 ```
+## ⚙️ Konfiguracija (config.py)
+Sistem je potpuno modularan. Broj kamera na ekranu se automatski prilagođava listi portova:
+
+1.  PORTS: Lista svih aktivnih UDP portova.
+
+2.  STATE_PORTS: Portovi namenjeni isključivo za tekstualne statuse (npr. brzina, mod vožnje).
+
+3.  FPS_LOCALCLOCK: Limitira brzinu slanja podataka ka browseru (default: 30).
 
 ## 💡 Ključne funkcionalnosti
 **1.    Konstantan FPS**: Koristi FPSClock za održavanje stabilne brzine reprodukcije (npr. 30 FPS).
@@ -49,3 +57,9 @@ python sender.py
 **3.    Dinamički Grid**: HTML šablon automatski pravi onoliko video prozora koliko ima portova definisanih u config.py.
 
 **4.    Multithreading**: Svaka "kamera" (port) ima svoju nit koja ne blokira rad ostalih.
+
+**5.    FPS Control:** Uveden `FPSClock` unutar svakog stream-a kako bi se sprečilo zagušenje mreže i CPU-a.
+
+**6.    State vs Video Separation:** Sistem razlikuje portove za telemetriju (String) i portove za video (Image).
+
+**7.    Asynchronous Updates:** Stanje (State) se na frontendu osvežava putem AJAX-a (100ms) bez prekidanja video strima.

@@ -8,3 +8,5 @@ FLASK_HOST = '0.0.0.0'
 FLASK_PORT = 5000
 
 APP_TITLE = "Nacionalna Klasa - Video Surveillance"
+
+FPS_LOCALCLOCK = 30 #da ne baguje server, precesto frejmova salje i bafer se prepuni
